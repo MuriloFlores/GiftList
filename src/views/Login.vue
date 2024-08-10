@@ -29,7 +29,7 @@ async function loginUser(): Promise<void> {
 <template>
   <div class="d-flex justify-content-center align-items-center w-100 vh-100">
     <form
-        class="col-sm-4 col-10 p-3 border py-5 rounded-2 shadow-lg"
+        class="col-sm-6 col-10 p-3 border py-5 rounded-2 shadow-lg"
         action="/dashboard"
         @submit.prevent="loginUser">
       <h2 class="text-center">Login</h2>

@@ -6,6 +6,7 @@ import validateToken from "@/http/validateToken";
 import {useTokenStore} from "@/stores/token";
 import {usePresentStore} from "@/stores/presents";
 import {useGuestStore} from "@/stores/guest";
+import Register from '@/views/Register.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,23 +26,36 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: Login
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register
         }
     ]
 })
 
 router.beforeEach(async (to, from) => {
-    if (!validateToken(useTokenStore().getToken()) && to.name !== "login") {
-        return {name: 'login'}
+    const token = useTokenStore().getToken()
+    const isValidate = validateToken(token)
+
+    if (to.name === "register") {
+        return true
     }
 
-    if (to.name !== "login") {
+    if (!isValidate && to.name !== "login") {
+        return {name: "login"}
+    }
+
+    if (to.name !== "login" && to.name !== "register") {
         useGuestStore().setGuest()
         await usePresentStore().setPresent()
     }
 
-    if (to.name === "login" && validateToken(useTokenStore().getToken())) {
+    if (to.name === "login" && isValidate) {
         return {name: 'dashboard'}
     }
+
 })
 
 export default router

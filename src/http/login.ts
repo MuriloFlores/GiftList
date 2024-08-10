@@ -1,4 +1,6 @@
 import {useTokenStore} from "@/stores/token";
+import router from "@/router";
+import {useGuestStore} from "@/stores/guest";
 
 export default async function login(phoneNumber: string): Promise<void> {
     try {
@@ -13,6 +15,10 @@ export default async function login(phoneNumber: string): Promise<void> {
         })
 
         if (!response.ok) {
+            if(response.headers.get("Create") !== null) {
+                useGuestStore().setPhoneNumberForRegister(phoneNumber);
+                await router.push({name: 'register'})
+            }
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 

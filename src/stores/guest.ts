@@ -10,6 +10,14 @@ export const useGuestStore = defineStore('guest', () => {
         }
     }
 
+    function setPhoneNumberForRegister(phoneNumber: string):void {
+        localStorage.setItem("phone_number", phoneNumber)
+    }
+
+    function getPhoneNumber(): string {
+        return localStorage.getItem("phone_number") ?? ""
+    }
+
     function getGuestName() {
         return localStorage.getItem("guest_name")
     }
@@ -18,5 +26,5 @@ export const useGuestStore = defineStore('guest', () => {
         return localStorage.getItem("guest_id")
     }
 
-    return {setGuest, getGuestName, getGuestId}
+    return {setGuest, getGuestName, getGuestId, setPhoneNumberForRegister, getPhoneNumber}
 })
